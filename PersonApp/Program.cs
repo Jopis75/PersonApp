@@ -85,10 +85,10 @@ static decimal ReadBonusPercentage()
 
     do
     {
-        Console.Write("Please enter the bonus percentage: ");
+        Console.Write("Please enter the bonus percentage (> 0.0): ");
         bonusInput = Console.ReadLine();
     }
-    while (decimal.TryParse(bonusInput, out bonus) == false || !(bonus >= 0.00m && bonus <= 100.00m));
+    while (decimal.TryParse(bonusInput, out bonus) == false || bonus <= 0.00m /*!(bonus >= 0.00m && bonus <= 100.00m)*/);
 
     return bonus;
 }
