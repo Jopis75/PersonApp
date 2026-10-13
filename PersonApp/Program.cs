@@ -23,6 +23,7 @@ while (!exit)
         if (cmdArgs.Length != 4)
         {
             WriteErrorMessage("Input must contain exactly 4 arguments!");
+            Console.WriteLine();
             continue;
         }
 
@@ -31,11 +32,13 @@ while (!exit)
         if (!int.TryParse(cmdArgs[2], out var age))
         {
             WriteErrorMessage("Invalid age format!");
+            Console.WriteLine();
             continue;
         }
         if (!decimal.TryParse(cmdArgs[3], out var salary))
         {
             WriteErrorMessage("Invalid salary format!");
+            Console.WriteLine();
             continue;
         }
 
@@ -46,11 +49,13 @@ while (!exit)
     catch (ArgumentException ex)
     {
         WriteErrorMessage(ex.Message);
+        Console.WriteLine();
         continue;
     }
     catch (Exception ex)
     {
-        WriteErrorMessage($"Unexpected error: {ex.Message}");
+        WriteErrorMessage($"An unexpected error has occured: {ex.Message}");
+        Console.WriteLine();
         continue;
     }
 }
@@ -59,7 +64,11 @@ persons
     .OrderBy(p => p.FirstName)
     .ThenBy(p => p.Age)
     .ToList()
-    .ForEach(p => Console.WriteLine(p.ToString()));
+    .ForEach(p =>
+    {
+        WriteInfoMessage(p.ToString());
+        Console.WriteLine();
+    });
 
 
 
@@ -76,12 +85,18 @@ static void WriteWelcomeScreen()
     Console.WriteLine();
 }
 
+static void WriteInfoMessage(string message)
+{
+    Console.BackgroundColor = ConsoleColor.Blue;
+    Console.ForegroundColor = ConsoleColor.White;
+    Console.Write(message);
+    Console.ResetColor();
+}
+
 static void WriteErrorMessage(string message)
 {
-    Console.WriteLine();
     Console.BackgroundColor = ConsoleColor.Red;
     Console.ForegroundColor = ConsoleColor.White;
     Console.Write(message);
     Console.ResetColor();
-    Console.WriteLine();
 }
