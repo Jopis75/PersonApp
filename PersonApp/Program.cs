@@ -1,6 +1,13 @@
 ﻿using PersonClassLibrary;
 
-WriteWelcomeScreen();
+// Write a welcome message.
+WriteWelcomeInfo();
+
+// Read the bonus to be used for each person entered.
+var bonus = ReadBonusPercentage();
+
+// Write a info message for how to add a person.
+WriteAddPersonInfo();
 
 var persons = new List<Person>();
 
@@ -66,13 +73,27 @@ persons
     .ToList()
     .ForEach(p =>
     {
+        p.IncreaseSalary(bonus);
         WriteInfoMessage(p.ToString());
         Console.WriteLine();
     });
 
+static decimal ReadBonusPercentage()
+{
+    var bonusInput = string.Empty;
+    var bonus = 0.00m;
 
+    do
+    {
+        Console.Write("Please enter the bonus percentage: ");
+        bonusInput = Console.ReadLine();
+    }
+    while (decimal.TryParse(bonusInput, out bonus) == false || !(bonus >= 0.00m && bonus <= 100.00m));
 
-static void WriteWelcomeScreen()
+    return bonus;
+}
+
+static void WriteWelcomeInfo()
 {
     Console.WriteLine($" ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄        ▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄ \r\n▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░▌      ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌\r\n▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀█░▌▐░▌░▌     ▐░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌\r\n▐░▌       ▐░▌▐░▌          ▐░▌       ▐░▌▐░▌          ▐░▌       ▐░▌▐░▌▐░▌    ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌▐░▌       ▐░▌\r\n▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░▌       ▐░▌▐░▌ ▐░▌   ▐░▌▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌\r\n▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░▌  ▐░▌  ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌\r\n▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀█░█▀▀  ▀▀▀▀▀▀▀▀▀█░▌▐░▌       ▐░▌▐░▌   ▐░▌ ▐░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░█▀▀▀▀▀▀▀▀▀ \r\n▐░▌          ▐░▌          ▐░▌     ▐░▌            ▐░▌▐░▌       ▐░▌▐░▌    ▐░▌▐░▌▐░▌       ▐░▌▐░▌          ▐░▌          \r\n▐░▌          ▐░█▄▄▄▄▄▄▄▄▄ ▐░▌      ▐░▌  ▄▄▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░▌     ▐░▐░▌▐░▌       ▐░▌▐░▌          ▐░▌          \r\n▐░▌          ▐░░░░░░░░░░░▌▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌      ▐░░▌▐░▌       ▐░▌▐░▌          ▐░▌          \r\n ▀            ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀        ▀▀  ▀         ▀  ▀            ▀           \r\n                                                                                                                     ");
     Console.WriteLine();
@@ -80,6 +101,10 @@ static void WriteWelcomeScreen()
     Console.WriteLine();
     Console.WriteLine("Welcome to the PersonApp!");
     Console.WriteLine();
+}
+
+static void WriteAddPersonInfo()
+{
     Console.WriteLine("Enter first name, last name, age and salary separated by spaces. Enter blank line to exit.");
     Console.WriteLine("Ex. John Doe 30 50000.0");
     Console.WriteLine();

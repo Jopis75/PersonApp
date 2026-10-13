@@ -82,11 +82,16 @@ namespace PersonClassLibrary
             }
         }
 
-        public void IncreaseSalary(decimal percentage) => Salary += (Age < 30) ? Salary * (percentage / 2) : Salary * percentage;
+        public void IncreaseSalary(decimal percentage)
+        {
+            var newPercentage = (Age < 30) ? percentage / 2.00m : percentage;
+
+            Salary += Salary * (newPercentage / 100.00m);
+        }
 
         public override string ToString()
         {
-            return $"{FirstName} {LastName} is {Age} years old and receives {Salary} dollars.";
+            return $"{FirstName} {LastName} is {Age} years old and receives {Salary:F2} dollars.";
         }
     }
 }
