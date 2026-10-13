@@ -2,12 +2,14 @@
 {
     public interface IPerson
     {
-        public string FirstName { get; }
+        string FirstName { get; }
 
-        public string LastName { get; }
+        string LastName { get; }
 
-        public int Age { get; }
+        int Age { get; }
 
-        public decimal Salary { get; }
+        decimal Salary { get; }
+
+        void IncreaseSalary(decimal percentage);
     }
 }

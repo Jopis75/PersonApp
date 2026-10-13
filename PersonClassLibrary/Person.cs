@@ -82,6 +82,8 @@ namespace PersonClassLibrary
             }
         }
 
+        public void IncreaseSalary(decimal percentage) => Salary += (Age < 30) ? Salary * (percentage / 2) : Salary * percentage;
+
         public override string ToString()
         {
             return $"{FirstName} {LastName} is {Age} years old and receives {Salary} dollars.";
