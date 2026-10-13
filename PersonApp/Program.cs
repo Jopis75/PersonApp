@@ -8,35 +8,51 @@ var exit = false;
 
 while (!exit)
 {
-    var line = Console.ReadLine();
-
-    if (string.IsNullOrEmpty(line))
+    try
     {
-        exit = true;
-        break;
+        var line = Console.ReadLine();
+
+        if (string.IsNullOrEmpty(line))
+        {
+            exit = true;
+            break;
+        }
+
+        var cmdArgs = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+        if (cmdArgs.Length != 4)
+        {
+            WriteErrorMessage("Input must contain exactly 4 arguments!");
+            continue;
+        }
+
+        var firstName = cmdArgs[0];
+        var lastName = cmdArgs[1];
+        if (!int.TryParse(cmdArgs[2], out var age))
+        {
+            WriteErrorMessage("Invalid age format!");
+            continue;
+        }
+        if (!decimal.TryParse(cmdArgs[3], out var salary))
+        {
+            WriteErrorMessage("Invalid salary format!");
+            continue;
+        }
+
+        var person = new Person(firstName, lastName, age, salary);
+
+        persons.Add(person);
     }
-
-    var cmdArgs = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-
-    if (cmdArgs.Length != 4)
+    catch (ArgumentException ex)
     {
-        throw new ArgumentException("Input must contain exactly 4 arguments!");
+        WriteErrorMessage(ex.Message);
+        continue;
     }
-
-    var firstName = cmdArgs[0];
-    var lastName = cmdArgs[1];
-    if (!int.TryParse(cmdArgs[2], out var age))
+    catch (Exception ex)
     {
-        throw new ArgumentException("Invalid age format!");
+        WriteErrorMessage($"Unexpected error: {ex.Message}");
+        continue;
     }
-    if (!decimal.TryParse(cmdArgs[3], out var salary))
-    {
-        throw new ArgumentException("Invalid salary format!");
-    }
-
-    var person = new Person(firstName, lastName, age, salary);
-
-    persons.Add(person);
 }
 
 persons
@@ -55,7 +71,17 @@ static void WriteWelcomeScreen()
     Console.WriteLine();
     Console.WriteLine("Welcome to the PersonApp!");
     Console.WriteLine();
-    Console.WriteLine("Enter first name, last name, age and salary separated by spaces. Enter blank to exit.");
+    Console.WriteLine("Enter first name, last name, age and salary separated by spaces. Enter blank line to exit.");
     Console.WriteLine("Ex. John Doe 30 50000.0");
+    Console.WriteLine();
+}
+
+static void WriteErrorMessage(string message)
+{
+    Console.WriteLine();
+    Console.BackgroundColor = ConsoleColor.Red;
+    Console.ForegroundColor = ConsoleColor.White;
+    Console.Write(message);
+    Console.ResetColor();
     Console.WriteLine();
 }
